@@ -1,0 +1,11 @@
+smokeping:
+  image: irasnyd/smokeping:2.6.10
+  ports:
+    - 8080:80
+  volumes:
+    - ./data:/var/lib/smokeping/rrd
+  restart: "always"
+  mem_limit: "1g"
+  log_opt:
+    max-size: '10m'
+    max-file: '3'

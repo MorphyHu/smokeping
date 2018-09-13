@@ -1,0 +1,6 @@
+docker run -d --name smokeping --rm -p 80:80 morphyhu/smokeping
+mkdir -p /data/smokeping/data
+docker cp smokeping:/opt/smokeping/etc /data/smokeping
+docker stop smokeping
+vi /data/smokeping/etc/config 
+docker run --name smokeping -d --rm  -p 80:80 -v /data/smokeping/data:/opt/smokeping/data -v /data/smokeping/etc:/opt/smokeping/etc morphyhu/smokeping

@@ -1,0 +1,3 @@
+#!/bin/bash
+# run under supervisord
+exec /usr/bin/supervisord -n -c /etc/supervisord.conf
