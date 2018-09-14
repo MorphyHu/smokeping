@@ -1,0 +1,15 @@
+smokeping:
+  container_name: smokeping
+  hostname: "smokeping_google"
+  image: morphyhu/smokeping:v2.7.2
+  ports:
+    - 80:80
+  volumes:
+    - /data/smokeping/ssmtp:/etc/ssmtp
+    - /data/smokeping/etc:/opt/smokeping/etc
+    - /data/smokeping/data:/opt/smokeping/data
+  restart: "always"
+  mem_limit: "200M"
+  log_opt:
+    max-size: '10m'
+    max-file: '3'
