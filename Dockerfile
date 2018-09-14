@@ -1,18 +1,24 @@
 FROM centos:7.5.1804
 MAINTAINER MorphyHu
 # set LANG
-ENV LANG en_US.UTF-8
+#ENV LANG en_US.UTF-8
+#ENV LANG zh_CN.UTF-8
 # install smokeping version
 ENV SMOKEPING_VERSION 2.7.2
 # set timezone
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone
+#RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone
+RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone 
+# install chinese support 
+RUN  yum -y install kde-l10n-Chinese \
+     && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 
+ENV LANG zh_CN.UTF-8
 # install packages
 RUN yum update -y \
     && yum groupinstall -y "Development tools" \
     && yum install -y epel-release \
-    && yum install -y perl httpd httpd-devel mod_fcgid rrdtool perl-CGI-SpeedyCGI fping rrdtool-perl perl-Sys-Syslog \
-    && yum install -y perl-CPAN perl-local-lib perl-Time-HiRes perl-core \
-    && yum install -y postfix supervisor ssmtp sendEmail wget openssl-devel \
+    && yum install -y perl httpd httpd-devel openssl-devel mod_fcgid rrdtool perl-CGI-SpeedyCGI rrdtool-perl perl-Sys-Syslog \
+    && yum install -y perl-CPAN perl-local-lib perl-Time-HiRes perl-core fping \
+    && yum install -y supervisor ssmtp sendEmail mtr wget wqy-microhei-fonts \
     && cd /tmp \
     && wget http://oss.oetiker.ch/smokeping/pub/smokeping-${SMOKEPING_VERSION}.tar.gz \
     && tar xzvf smokeping-${SMOKEPING_VERSION}.tar.gz \
